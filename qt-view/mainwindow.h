@@ -23,7 +23,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    JsonAnalizer * jsonAnalizer;
+    JsonAnalizer * jsonAnalizer = nullptr;
 };
 
 #endif // MAINWINDOW_H

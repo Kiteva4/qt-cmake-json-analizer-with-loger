@@ -61,7 +61,9 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "bit": "cpp",
-        "qmainwindow": "cpp"
+        "qmainwindow": "cpp",
+        "filesystem": "cpp",
+        "variant": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

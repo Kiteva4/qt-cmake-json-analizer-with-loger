@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/json-analyzer/json-analyzer",
+            "program": "${workspaceFolder}/build/qt-view/qt-view",
             "args": ["net.json"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

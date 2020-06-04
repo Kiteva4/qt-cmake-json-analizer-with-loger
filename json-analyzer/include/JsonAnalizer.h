@@ -4,14 +4,17 @@
 #include <iostream>
 
 #include <Json/JsonWorker.h>
+#include <JsonAnalizerLoger.h>
 
 class JsonAnalizer
 {
 public:
-    JsonAnalizer(std::filesystem::path file_path);
+    JsonAnalizer(const std::filesystem::path &  file_path);
     ~JsonAnalizer();
 
     void startAnalizing();
+    const JsonAnalizerLoger & loger();
 private:
+    JsonAnalizerLoger m_loger;
     JsonWorker worker;
 };

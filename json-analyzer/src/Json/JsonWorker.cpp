@@ -1,9 +1,11 @@
 #include <Json/JsonWorker.h>
-#include <iostream>
 #include <map>
 
-JsonWorker::JsonWorker(const std::filesystem::path &main_json_path) : jsonUtils{},
-                                                                      main_doc{}
+JsonWorker::JsonWorker(
+    const std::filesystem::path &main_json_path)
+    : jsonUtils{},
+      main_doc{},
+      m_loger{}
 {
     jsonUtils.getJsonDoc(main_doc, main_json_path);
 }
@@ -12,9 +14,17 @@ JsonWorker::~JsonWorker()
 {
 }
 
+void JsonWorker::extract_log(const std::string &str)
+{
+    // QMessageBox::information(&widget, "Error", str.c_str());
+    m_loger.doLog(str);
+    std::cout << str << std::endl;
+}
+
 void JsonWorker::extract_exeption(const std::string &str)
 {
     // QMessageBox::information(&widget, "Error", str.c_str());
+    m_loger.doLog(str);
     throw std::runtime_error(str);
 }
 
@@ -39,7 +49,7 @@ bool JsonWorker::JsonTest1()
     }
     else
     {
-        std::cout << "object 'block' exist and has Array type" << std::endl;
+        extract_log("object 'block' exist and has Array type");
     }
 
     /* Проверка поля " block_name " у каждого элемента массива */
@@ -88,7 +98,7 @@ bool JsonWorker::JsonTest2()
         }
         else
         {
-            std::cout << "object 'broadcast_ip' exist and has non-empty String type" << std::endl;
+            extract_log("object 'broadcast_ip' exist and has non-empty String type");
         }
     }
 
@@ -96,7 +106,7 @@ bool JsonWorker::JsonTest2()
     {
         for (auto it = main_doc["blocks"].Begin(); it != main_doc["blocks"].End(); it++)
         {
-            std::string block_name("block " + std::string(it->GetObject()["block_name"].GetString()));
+            std::string block_name(std::string(it->GetObject()["block_name"].GetString()));
             /* Вывод ошибки если в отсутствует поле "ip" */
             if (!it->HasMember("ip"))
             {
@@ -119,7 +129,7 @@ bool JsonWorker::JsonTest2()
             }
             else
             {
-                std::cout << "'ip' on mudule " << it->GetObject()["block_name"].GetString() << " is correct" << std::endl;
+                extract_log(std::string{"'ip' on mudule " + block_name + " is correct"});
             }
         }
     }
@@ -151,7 +161,7 @@ bool JsonWorker::JsonTest3()
         /* Валидация out */
         for (auto it = main_doc["blocks"].Begin(); it != main_doc["blocks"].End(); it++)
         {
-            std::string block_name("block " + std::string(it->GetObject()["block_name"].GetString()));
+            std::string block_name(std::string(it->GetObject()["block_name"].GetString()));
             /* Вывод ошибки если в отсутствует поле "ip" */
             if (!it->HasMember("out"))
             {
@@ -169,7 +179,7 @@ bool JsonWorker::JsonTest3()
             }
             else
             {
-                std::cout << "'out' on mudule " << it->GetObject()["block_name"].GetString() << " is correct Array " << std::endl;
+                extract_log(std::string{"'out' on mudule " +block_name + "is correct Array"});
             }
         }
     }

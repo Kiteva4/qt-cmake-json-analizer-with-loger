@@ -8,11 +8,12 @@
 #include "rapidjson/writer.h"
 
 #include <Json/JsonUtils.h>
+#include <JsonAnalizerLoger.h>
 
 class JsonWorker
 {
 public:
-    JsonWorker(const std::filesystem::path & main_json_path);
+    JsonWorker(const std::filesystem::path &main_json_path);
     ~JsonWorker();
 
     /* 1. Проверить для каждого блока (из blocks) проверить block_name на наличие (не пусто и что является строкой) */
@@ -28,13 +29,13 @@ public:
     /* 6. Проверить что для каждого блока (из blocks) массивы out на уникальность dest_port в рамках одного dest_block */
     bool JsonTest6();
 
-
 private:
-
-    void extract_exeption(const std::string & str);
-
+    void extract_exeption(const std::string &str);
+    void extract_log(const std::string &str);
+    
     JsonUtils jsonUtils;
     rapidjson::Document main_doc;
+    JsonAnalizerLoger m_loger;
 };
 
 /*

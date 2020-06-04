@@ -1,11 +1,16 @@
 #include <JsonAnalizer.h>
 
-JsonAnalizer::JsonAnalizer(std::filesystem::path file_path) : worker{file_path}
+JsonAnalizer::JsonAnalizer(const std::filesystem::path &file_path) : worker(file_path)
 {
 }
 
 JsonAnalizer::~JsonAnalizer()
 {
+}
+
+const JsonAnalizerLoger & JsonAnalizer::loger()
+{
+    return m_loger;
 }
 
 void JsonAnalizer::startAnalizing()
