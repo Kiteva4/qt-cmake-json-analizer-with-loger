@@ -24,9 +24,9 @@ void JsonAnalizerLoger::doLog(std::string _log)
 
     if (m_logToStream)
     {
-        m_logToStream << "Date: " << std::ctime(&current_time)
-                      << "Log:  " << _log
-                      << std::endl;
+        m_logToStream << "--------------------------" << std::endl
+                      << " Date: " << std::ctime(&current_time)
+                      << " Log:  " << _log << std::endl;
 
         if (m_logToStream.bad())
         {
@@ -34,19 +34,19 @@ void JsonAnalizerLoger::doLog(std::string _log)
         }
     }
 
-    if(m_readFromStream)
-    {
-        m_readFromStream.seekg(0, m_readFromStream.end);
-        int64_t length = m_readFromStream.tellg();
-        m_readFromStream.seekg (0, m_readFromStream.beg);
+    // if (m_readFromStream)
+    // {
+    //     m_readFromStream.seekg(0, m_readFromStream.end);
+    //     int64_t length = m_readFromStream.tellg();
+    //     m_readFromStream.seekg(0, m_readFromStream.beg);
 
-        char * buffer = new char [length];
+    //     char *buffer = new char[length];
 
-        std::cout << "Reading " << length << " characters... ";
-        // read data as a block:
-        m_readFromStream.read (buffer,length);
+    //     std::cout << "Reading " << length << " characters... ";
+    //     // read data as a block:
+    //     m_readFromStream.read(buffer, length);
 
-        if (m_readFromStream)
-            std::cout << "all characters read successfully.";
-    }
+    //     if (m_readFromStream)
+    //         std::cout << "all characters read successfully.";
+    // }
 }

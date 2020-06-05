@@ -15,8 +15,7 @@ const JsonAnalizerLoger & JsonAnalizer::loger()
 
 void JsonAnalizer::startAnalizing()
 {
-    if (worker.JsonTest1() && worker.JsonTest2() && worker.JsonTest3() && worker.JsonTest4()
-        // && worker.JsonTest5
+    if (worker.JsonTest1() && worker.JsonTest2() && worker.JsonTest3() && worker.JsonTest4() && worker.JsonTest5()
         // && worker.JsonTest6
     )
     {
