@@ -1,0 +1,38 @@
+{
+   "rs485_port" : 2300,
+   "port_delta" : 1000,
+   "broadcast_ip" : "192.168.2.255",
+
+   "blocks" : [
+      {
+         "block_name" : "PNS1",
+         "ip" : "192.168.2.142",
+         "in" : [
+            { "name" : "rk_status_in", "port" : 10734, "fifo" : true , "udp" : true},
+            { "name" : "rmp_data_in", "port" : 10542, "fifo" : false, "udp" : true }
+         ],
+
+         "out" : [
+            { "name" : "state_flash_pns_out", "port" : 10851, "dest_port" : 10734, "dest_block" : "PNS2", "fifo" : false , "udp" : true},
+            { "name" : "flash_cntrl_out", "port" : 10853, "dest_port" : 10544, "dest_block" : "PNS2", "fifo" : false, "udp" : true  }
+         ]
+      },
+
+      {
+         "block_name" : "PNS2",
+         "ip" : "192.168.2.144",
+         "in" : [
+            { "name" : "rk_status_in", "port" : 10734, "fifo" : true , "udp" : true},
+            { "name" : "rmp_data_in", "port" : 10544, "fifo" : false, "udp" : true }
+         ],
+
+         "out" : [
+            { "name" : "database_zone_p_out_rpkb", "port" : 10672, "dest_port" : 10734, "dest_block" : "PNS1", "fifo" : false, "udp" : true },
+            { "name" : "database_zone_p_out_rpkb", "port" : 10672, "dest_port" : 9999, "dest_block" : "SELF", "fifo" : false, "udp" : true },
+            { "name" : "database_zone_p_out_rpkb", "port" : 10672, "dest_port" : 9995, "dest_block" : "PNS2, PNS1", "fifo" : false, "udp" : true },
+
+            { "name" : "flash_cntrl_out", "port" : 10853, "dest_port" : 10542, "dest_block" : "PNS1", "fifo" : false, "udp" : true  }
+         ]
+      }
+   ]
+}

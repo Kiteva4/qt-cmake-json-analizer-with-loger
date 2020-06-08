@@ -181,7 +181,7 @@ bool JsonWorker::JsonTest3()
             }
             else
             {
-                extract_log(std::string{"OK: блок 'out' в модуле " + block_name + " корректен"});
+                extract_log(std::string{"OK:блок 'out' в модуле " + block_name + " корректен"});
             }
         }
     }
@@ -256,54 +256,61 @@ bool JsonWorker::JsonTest5()
 
             for (auto a = it->GetObject()["out"].GetArray().Begin(); a != it->GetObject()["out"].GetArray().End(); a++)
             {
-                // if (!in_ports_cache[(a->GetObject()["dest_block"]) == "SELF" ? block_name : a->GetObject()["dest_block"].GetString()].contains(a->GetObject()["dest_port"].GetInt()))
-                // {
-                //     extract_exeption("ERROR: в модуле " +
-                //                      block_name +
-                //                      " порт '" +
-                //                      std::to_string(a->GetObject()["dest_port"].GetInt()) +
-                //                      "' не найдет в массиве 'in' модуля: " +
-                //                      a->GetObject()["dest_block"].GetString());
-                // }
-
                 std::string dest_block(a->GetObject()["dest_block"].GetString());
 
+                if (dest_block.find("SELF") != std::string::npos)
+                {
+                    // std::cout << "Найден " << it->GetObject()["block_name"].GetString() << " : SELF" << std::endl;
+
+                    if (!in_ports_cache[it->GetObject()["block_name"].GetString()].contains(a->GetObject()["dest_port"].GetInt()))
+                    {
+                        // В блоке it->GetObject()["block_name"].GetString() не заложен прием для запрашиваемого порта a->GetObject()["dest_port"].GetInt()
+                        extract_exeption("ERROR: в модуле " +
+                                         block_name +
+                                         " не заложен прием для запрашиваемого порта " +
+                                         std::to_string(a->GetObject()["dest_port"].GetInt()) +
+                                         " сокета " +
+                                         std::string(a->GetObject()["name"].GetString()));
+                        continue;
+                    }
+                    else
+                    {
+                        // В блоке it->GetObject()["block_name"].GetString() заложен прием для запрашиваемого порта a->GetObject()["dest_port"].GetInt()
+                        extract_log("OK:в блоке " +
+                                    std::string(it->GetObject()["block_name"].GetString()) +
+                                    " заложен прием для запрашиваемого порта " +
+                                    std::to_string(a->GetObject()["dest_port"].GetInt()) +
+                                    " сокета " +
+                                    std::string(a->GetObject()["name"].GetString()));
+                        continue;
+                    }
+                }
+                
                 for (const auto &it_cache : in_ports_cache)
                 {
-                    if (dest_block.find("SELF") != std::string::npos)
-                    {
-                        // std::cout << "Найден " << it->GetObject()["block_name"].GetString() << " : SELF" << std::endl;
-
-                        if (!in_ports_cache[it->GetObject()["block_name"].GetString()].contains(a->GetObject()["dest_port"].GetInt()))
-                        {
-                            // В блоке it->GetObject()["block_name"].GetString() не заложен прием для запрашиваемого порта a->GetObject()["dest_port"].GetInt()
-                            extract_exeption("ERROR: в модуле " + block_name + " не заложен прием для запрашиваемого порта " + std::to_string(a->GetObject()["dest_port"].GetInt()));
-                        }
-                        else
-                        {
-                            // В блоке it->GetObject()["block_name"].GetString() заложен прием для запрашиваемого порта a->GetObject()["dest_port"].GetInt()
-                            extract_log("OK: в блоке " +
-                                        std::string(it->GetObject()["block_name"].GetString()) +
-                                        " заложен прием для запрашиваемого порта " +
-                                        std::to_string(a->GetObject()["dest_port"].GetInt()));
-                        }
-                    }
-                    else if (dest_block.find(it_cache.first) != std::string::npos)
+                    if (dest_block.find(it_cache.first) != std::string::npos)
                     {
                         // std::cout << "Найден запрашиваемый " << dest_block << " :> " <<  it_cache.first << "obj: " << it->GetObject()["block_name"].GetString() << std::endl;
 
                         if (!in_ports_cache[it_cache.first].contains(a->GetObject()["dest_port"].GetInt()))
                         {
                             // В блоке it->GetObject()["block_name"].GetString() не заложен прием для запрашиваемого порта a->GetObject()["dest_port"].GetInt()
-                            extract_exeption("ERROR: в модуле " + dest_block + " не заложен прием для запрашиваемого порта " + std::to_string(a->GetObject()["dest_port"].GetInt()));
+                            extract_exeption("ERROR: в модуле " +
+                                             it_cache.first +
+                                             " не заложен прием для запрашиваемого порта " +
+                                             std::to_string(a->GetObject()["dest_port"].GetInt()) +
+                                             " сокета " +
+                                             std::string(a->GetObject()["name"].GetString()));
                         }
                         else
                         {
                             // В блоке it_cache.first заложен прием для запрашиваемого порта a->GetObject()["dest_port"].GetInt()
-                            extract_log("OK: в блоке " +
+                            extract_log("OK:в блоке " +
                                         it_cache.first +
                                         " заложен прием для запрашиваемого порта " +
-                                        std::to_string(a->GetObject()["dest_port"].GetInt()));
+                                        std::to_string(a->GetObject()["dest_port"].GetInt()) +
+                                        " сокета " +
+                                        std::string(a->GetObject()["name"].GetString()));
                         }
                     }
                     // else

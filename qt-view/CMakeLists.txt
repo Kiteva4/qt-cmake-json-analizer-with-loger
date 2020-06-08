@@ -57,7 +57,9 @@ include_directories(
 include_directories(${PROJECT_SOURCE_DIR}/)
 include_directories(${PROJECT_BINARY_DIR}/)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX "${EXE_SUFFIX}")
+set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".run")
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "ikbo152_net_json_analyzer")
+
 
 include_directories(${PROJECT_SOURCE_DIR}/include/)
 include_directories(${PROJECT_SOURCE_DIR}/../sockets/include/)
