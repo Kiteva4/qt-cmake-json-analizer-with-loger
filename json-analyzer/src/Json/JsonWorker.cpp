@@ -315,13 +315,13 @@ bool JsonWorker::JsonTest5()
                         {
                             // В блоке it->GetObject()["block_name"].GetString() не заложен прием для запрашиваемого порта a->GetObject()["dest_port"].GetInt()
                             extract_exeption("ERROR: для модуля " +
-                                             it_cache.first +
+                                             block_name +
                                              " не заложен прием для запрашиваемого порта " +
                                              std::to_string(a->GetObject()["dest_port"].GetInt()) +
                                              " сокета " +
                                              std::string(a->GetObject()["name"].GetString()) +
                                              " у модуля " +
-                                             std::string(a->GetObject()["dest_block"].GetString()));
+                                             it_cache.first);
                         }
                         else
                         {

@@ -72,18 +72,18 @@ static void bufNotComment(char * buf, size_t size)
 static bool ParseJson(rapidjson::Document &doc, const std::string &path)
 {
 //    std::vector<char> readBuffer;
-	char readBuffer[100000] = {};
+	char readBuffer[1000000] = {};
 //    char buf;
 
     FILE* file = fopen(path.c_str(), "rb");
 
     if (file == nullptr) return false;
 
-    fread(readBuffer, 1, 100000, file);
+    fread(readBuffer, 1, 1000000, file);
 //    while(fread(&buf, 1, 1, file))
 //    	readBuffer.push_back(buf);
 
-    bufNotComment(readBuffer, 100000);
+    bufNotComment(readBuffer, 1000000);
     //Print(readBuffer.data(), sizeof(readBuffer.size()));
     if (doc.Parse(readBuffer).HasParseError())
     {

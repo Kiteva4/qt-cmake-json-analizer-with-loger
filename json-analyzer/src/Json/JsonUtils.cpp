@@ -44,16 +44,16 @@ void JsonUtils::cleanComments(char *buf, size_t size)
 
 bool JsonUtils::getJsonDoc(rapidjson::Document &doc, const std::filesystem::path &path)
 {
-    char readBuffer[100000] = {};
+    char readBuffer[1000000] = {};
 
     FILE *file = fopen(path.c_str(), "rb");
 
     if (file == nullptr)
         return false;
 
-    fread(readBuffer, 1, 100000, file);
+    fread(readBuffer, 1, 1000000, file);
 
-    cleanComments(readBuffer, 100000);
+    cleanComments(readBuffer, 1000000);
 
     if (doc.Parse(readBuffer).HasParseError())
     {
