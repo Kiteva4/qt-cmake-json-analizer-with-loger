@@ -17,19 +17,21 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_checkBox_2_stateChanged(int arg1);
+    void on_startAnalyze_clicked();
 
 private slots:
-    void on_checkBox_stateChanged(int arg1);
+    void on_selectFile_clicked();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_enable_oks_stateChanged(int arg1);
 
-    void on_pushButton_2_clicked();
+private slots:
+    void on_enable_errors_stateChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;
     JsonAnalizer * jsonAnalizer = nullptr;
+    QString file_path;
 };
 
 #endif // MAINWINDOW_H

@@ -14,7 +14,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    file_path()
 {
     ui->setupUi(this);
 }
@@ -25,20 +26,21 @@ MainWindow::~MainWindow()
     delete jsonAnalizer;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_selectFile_clicked()
 {
-    QString file_path = QFileDialog::getOpenFileName(this,"Open a file", "~/");
-    ui->label->setText(file_path);
-
-    delete jsonAnalizer;
-    jsonAnalizer = new JsonAnalizer(file_path.toStdString());
-    ui->checkBox->setChecked(true);
-    ui->checkBox_2->setChecked(false);
+    file_path = QFileDialog::getOpenFileName(this,"Open a file", "/home/data/data_yak/config");
+    ui->filePath->setText(file_path);
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_startAnalyze_clicked()
 {
+    jsonAnalizer = new JsonAnalizer(file_path.toStdString());
+    on_enable_errors_stateChanged(ui->enable_errors->checkState());
+    on_enable_oks_stateChanged(ui->enable_oks->checkState());
+
     jsonAnalizer->startAnalizing();
+    delete jsonAnalizer;
+
     QFile file("analyzer_logs.txt");
 
     file.open(QFile::ReadOnly);
@@ -47,16 +49,14 @@ void MainWindow::on_pushButton_2_clicked()
     file.close();
 }
 
-void MainWindow::on_checkBox_stateChanged(int arg1)
+void MainWindow::on_enable_oks_stateChanged(int arg1)
 {
-    std::cout << "<test 1>" << std::endl;
-    if(jsonAnalizer != nullptr)
-        jsonAnalizer->set_print_error(arg1);
-}
-
-void MainWindow::on_checkBox_2_stateChanged(int arg1)
-{
-    std::cout << "<test 2>" << std::endl;
     if(jsonAnalizer != nullptr)
         jsonAnalizer->set_print_ok(arg1);
+}
+
+void MainWindow::on_enable_errors_stateChanged(int arg1)
+{
+    if(jsonAnalizer != nullptr)
+        jsonAnalizer->set_print_error(arg1);
 }

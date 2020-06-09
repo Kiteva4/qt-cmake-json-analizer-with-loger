@@ -6,8 +6,8 @@ JsonWorker::JsonWorker(
     : jsonUtils{},
       main_doc{},
       m_loger{},
-      print_error{true},
-      print_ok{true}
+      print_error{false},
+      print_ok{false}
 {
     jsonUtils.getJsonDoc(main_doc, main_json_path);
 }
@@ -28,16 +28,22 @@ void JsonWorker::set_print_ok(bool _flag)
 
 void JsonWorker::extract_log(const std::string &str)
 {
-    // QMessageBox::information(&widget, "Error", str.c_str());
-    m_loger.doLog(str);
-    std::cout << str << std::endl;
+    if(print_ok)
+    {
+        // QMessageBox::information(&widget, "Error", str.c_str());
+        m_loger.doLog(str);
+        std::cout << str << std::endl;
+    }
 }
 
 void JsonWorker::extract_exeption(const std::string &str)
 {
-    // QMessageBox::information(&widget, "Error", str.c_str());
-    m_loger.doLog(str);
-    std::cerr << str << "\n";
+    if(print_error)
+    {
+        // QMessageBox::information(&widget, "Error", str.c_str());
+        m_loger.doLog(str);
+        std::cerr << str << "\n";
+    }
 }
 
 bool JsonWorker::JsonTest1()
@@ -83,7 +89,7 @@ bool JsonWorker::JsonTest1()
             extract_exeption("ERROR: объект 'block_name' массива 'blocks' является пустой строкой");
         }
 
-        extract_exeption("OK:" + std::string(it->GetObject()["block_name"].GetString()) + " корректен ");
+        extract_log("OK:" + std::string(it->GetObject()["block_name"].GetString()) + " корректен ");
     }
 
     return result;
@@ -159,7 +165,7 @@ bool JsonWorker::JsonTest3()
     {
         for (auto it = main_doc["blocks"].Begin(); it != main_doc["blocks"].End(); it++)
         {
-            std::string block_name("block " + std::string(it->GetObject()["block_name"].GetString()));
+            std::string block_name(std::string(it->GetObject()["block_name"].GetString()));
 
             /* Вывод ошибки если поле "ip" существует, но не является Array */
             if (it->HasMember("in"))
@@ -212,7 +218,6 @@ bool JsonWorker::JsonTest4()
         {
             std::string block_name("block " + std::string(it->GetObject()["block_name"].GetString()));
 
-            std::cout << block_name << std::endl;
             for (auto a = it->GetObject()["in"].GetArray().Begin(); a != it->GetObject()["in"].GetArray().End(); a++)
             {
                 in_ports[a->GetObject()["port"].GetInt()]++;
@@ -277,12 +282,14 @@ bool JsonWorker::JsonTest5()
                     if (!in_ports_cache[it->GetObject()["block_name"].GetString()].contains(a->GetObject()["dest_port"].GetInt()))
                     {
                         // В блоке it->GetObject()["block_name"].GetString() не заложен прием для запрашиваемого порта a->GetObject()["dest_port"].GetInt()
-                        extract_exeption("ERROR: в модуле " +
+                        extract_exeption("ERROR: для модуля в [out] " +
                                          block_name +
                                          " не заложен прием для запрашиваемого порта " +
                                          std::to_string(a->GetObject()["dest_port"].GetInt()) +
                                          " сокета " +
-                                         std::string(a->GetObject()["name"].GetString()));
+                                         std::string(a->GetObject()["name"].GetString()) +
+                                         " у модуля в [in]" +
+                                         std::string(a->GetObject()["dest_block"].GetString()));
                         continue;
                     }
                     else
@@ -307,12 +314,14 @@ bool JsonWorker::JsonTest5()
                         if (!in_ports_cache[it_cache.first].contains(a->GetObject()["dest_port"].GetInt()))
                         {
                             // В блоке it->GetObject()["block_name"].GetString() не заложен прием для запрашиваемого порта a->GetObject()["dest_port"].GetInt()
-                            extract_exeption("ERROR: в модуле " +
+                            extract_exeption("ERROR: для модуля " +
                                              it_cache.first +
                                              " не заложен прием для запрашиваемого порта " +
                                              std::to_string(a->GetObject()["dest_port"].GetInt()) +
                                              " сокета " +
-                                             std::string(a->GetObject()["name"].GetString()));
+                                             std::string(a->GetObject()["name"].GetString()) +
+                                             " у модуля " +
+                                             std::string(a->GetObject()["dest_block"].GetString()));
                         }
                         else
                         {

@@ -23,7 +23,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="filePath">
           <property name="maximumSize">
            <size>
             <width>16777215</width>
@@ -55,14 +55,17 @@
          </spacer>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="enable_errors">
           <property name="text">
            <string>Errors</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_2">
+         <widget class="QCheckBox" name="enable_oks">
           <property name="text">
            <string>OK</string>
           </property>
@@ -111,7 +114,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="selectFile">
           <property name="maximumSize">
            <size>
             <width>100</width>
@@ -165,7 +168,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="startAnalyze">
         <property name="text">
          <string>CHECK SELECTED FILE</string>
         </property>
