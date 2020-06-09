@@ -16,6 +16,9 @@ public:
     JsonWorker(const std::filesystem::path &main_json_path);
     ~JsonWorker();
 
+    void set_print_error(bool _flag);
+    void set_print_ok(bool _flag);
+
     /* 1. Проверить для каждого блока (из blocks) проверить block_name на наличие (не пусто и что является строкой) */
     bool JsonTest1();
     /* 2. Проверить для каждого блока (из blocks) наличие "ip" (есть и является строкой) и соответствует маске корневого объекта "broadcast_ip" */
@@ -36,6 +39,8 @@ private:
     JsonUtils jsonUtils;
     rapidjson::Document main_doc;
     JsonAnalizerLoger m_loger;
+    bool print_error;
+    bool print_ok;
 };
 
 /*

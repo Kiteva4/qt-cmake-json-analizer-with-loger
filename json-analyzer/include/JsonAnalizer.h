@@ -14,7 +14,12 @@ public:
 
     void startAnalizing();
     const JsonAnalizerLoger & loger();
+
+    void set_print_error(bool _flag);
+    void set_print_ok(bool _flag);
+
 private:
     JsonAnalizerLoger m_loger;
     JsonWorker worker;
+
 };

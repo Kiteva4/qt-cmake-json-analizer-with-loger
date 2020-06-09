@@ -32,6 +32,8 @@ void MainWindow::on_pushButton_clicked()
 
     delete jsonAnalizer;
     jsonAnalizer = new JsonAnalizer(file_path.toStdString());
+    ui->checkBox->setChecked(true);
+    ui->checkBox_2->setChecked(false);
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -43,4 +45,18 @@ void MainWindow::on_pushButton_2_clicked()
     QString content = QString::fromUtf8(file.readAll());
     ui->plainTextEdit->setPlainText(content);
     file.close();
+}
+
+void MainWindow::on_checkBox_stateChanged(int arg1)
+{
+    std::cout << "<test 1>" << std::endl;
+    if(jsonAnalizer != nullptr)
+        jsonAnalizer->set_print_error(arg1);
+}
+
+void MainWindow::on_checkBox_2_stateChanged(int arg1)
+{
+    std::cout << "<test 2>" << std::endl;
+    if(jsonAnalizer != nullptr)
+        jsonAnalizer->set_print_ok(arg1);
 }

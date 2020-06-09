@@ -33,20 +33,6 @@ void JsonAnalizerLoger::doLog(std::string _log)
             std::cerr << "Unrecoverable write error" << std::endl;
         }
     }
-
-    // if (m_readFromStream)
-    // {
-    //     m_readFromStream.seekg(0, m_readFromStream.end);
-    //     int64_t length = m_readFromStream.tellg();
-    //     m_readFromStream.seekg(0, m_readFromStream.beg);
-
-    //     char *buffer = new char[length];
-
-    //     std::cout << "Reading " << length << " characters... ";
-    //     // read data as a block:
-    //     m_readFromStream.read(buffer, length);
-
-    //     if (m_readFromStream)
-    //         std::cout << "all characters read successfully.";
-    // }
 }
+
+

@@ -5,13 +5,25 @@ JsonWorker::JsonWorker(
     const std::filesystem::path &main_json_path)
     : jsonUtils{},
       main_doc{},
-      m_loger{}
+      m_loger{},
+      print_error{true},
+      print_ok{true}
 {
     jsonUtils.getJsonDoc(main_doc, main_json_path);
 }
 
 JsonWorker::~JsonWorker()
 {
+}
+
+void JsonWorker::set_print_error(bool _flag)
+{
+    print_error = _flag;
+}
+
+void JsonWorker::set_print_ok(bool _flag)
+{
+    print_ok = _flag;
 }
 
 void JsonWorker::extract_log(const std::string &str)
