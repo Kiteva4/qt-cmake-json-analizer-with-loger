@@ -14,6 +14,25 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
 
+if (APPLE)
+    include(FindPackageMessage)
+    find_program(brew brew)
+    if(brew)
+        find_package_message(brew "Homebrew found: ${brew}" "1;${brew}")
+    else()
+        find_package_message(brew "Homebrew not found" "0")
+        return()
+    endif()
+    execute_process(
+        COMMAND "${brew}" --prefix qt5
+        OUTPUT_VARIABLE brew_qt
+        OUTPUT_STRIP_TRAILING_WHITESPACE 
+        ERROR_QUIET
+        )
+
+        set(Qt5_DIR "${brew_qt}/lib/cmake/Qt5")
+endif()
+
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Network)
 
 file(GLOB_RECURSE HDRS *.h)
@@ -57,17 +76,16 @@ include_directories(
 include_directories(${PROJECT_SOURCE_DIR}/)
 include_directories(${PROJECT_BINARY_DIR}/)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".run")
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "ikbo152_net_json_analyzer")
-
+set_target_properties(${PROJECT_NAME} PROPERTIES 
+    SUFFIX ".run"
+    OUTPUT_NAME "ikbo152_net_json_analyzer")
 
 include_directories(${PROJECT_SOURCE_DIR}/include/)
-include_directories(${PROJECT_SOURCE_DIR}/../sockets/include/)
+include_directories(${PROJECT_SOURCE_DIR}/../libs/)
 include_directories(${PROJECT_SOURCE_DIR}/../json-analyzer/include/)
 
 target_link_libraries(${PROJECT_NAME}
     ${PROJECT_BINARY_DIR}/../json-analyzer/libjson-analyzer.a
-    ${PROJECT_BINARY_DIR}/../sockets/libsockets.a
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets

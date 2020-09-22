@@ -10,8 +10,6 @@ set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         -g -O0")
 set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS}  -g -O0")
 
 add_subdirectory(json-analyzer)
-add_subdirectory(sockets)
 add_subdirectory(qt-view)
 
-add_dependencies(qt-view json-analyzer sockets)
-add_dependencies(json-analyzer sockets)
+add_dependencies(qt-view json-analyzer)
